@@ -93,7 +93,7 @@ function Schedule (props){
 
 
     return(
-        <View style={{flex: 1}}> 
+        <View style={{flex: 1, backgroundColor: colors.lightgreen}}> 
                 
                     <>
                         <ScrollView>
@@ -113,10 +113,12 @@ function Schedule (props){
                 
                 <View style={styles.addButton}>
                         <CoolButton 
-                            title='Add temporal task' 
+                            title='Quick task' 
                             buttonStyle={styles.addCoolButton} 
                             titleStyle={styles.addCoolButtonTitle} 
                             onPress={() => navigation.navigate('NewTempActivity')}
+                            decorationOffset
+                            isDecoratedText
                             // onPress={() => pushScheduledNotification()}
                             // onPress={() => cancelAllNotifications()}
                         />
@@ -138,13 +140,13 @@ const styles = StyleSheet.create({
         borderLeftWidth: 10
     },
     categoryActive: {
-        borderLeftColor: "#ffa73b"
+        borderLeftColor: colors.darkgreen//"#ffa73b"
     },
     categoryDone: {
-        borderLeftColor: colors.green
+        borderLeftColor: colors.darkgreen//colors.green
     },
     categorySuspended: {
-        borderLeftColor: "#fff23b"
+        borderLeftColor: colors.darkgreen//"#fff23b"
     },
 
     timer: {
@@ -155,14 +157,17 @@ const styles = StyleSheet.create({
         bottom: 0
     },
     addCoolButton: {
-        backgroundColor: colors.green,
+        backgroundColor: colors.lightgreen,
         height: 60,
         borderRadius: 0,
+        borderTopColor: colors.darkgreen,
+        borderTopWidth: 3
     },
     addCoolButtonTitle: {
         fontWeight: 'bold',
-        fontSize: 20,
+        fontSize: 24,
         lineHeight: 45,
+        color: colors.darkgreen
     }
 })
 

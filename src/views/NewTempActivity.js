@@ -14,6 +14,8 @@ import {
 
 import {addTempTodo} from '@src/store/actions'
 
+import colors from '@src/config/colors'
+
 function NewActivity({ navigation, createTempTodo }) {
 
     // STATE
@@ -102,7 +104,7 @@ function NewActivity({ navigation, createTempTodo }) {
 
     return (
         <>
-            <ScrollView keyboardShouldPersistTaps='always'>
+            <ScrollView keyboardShouldPersistTaps='always' style={{backgroundColor: colors.lightgreen}}>
                 <View style={st.form}>
 
                     {/* Activity name */}
@@ -206,11 +208,15 @@ const st = StyleSheet.create({
         fontSize: 20,
         minWidth: '20%',
         paddingLeft: 10,
+        //borderWidth: 1,
+        //borderColor: '#ebebeb',
+        //borderRadius: 4,
+        //backgroundColor: '#fefefe',
+        height: 45,
+        borderColor: colors.darkgreen,//'#ebebeb',
         borderWidth: 1,
-        borderColor: '#ebebeb',
-        borderRadius: 4,
-        backgroundColor: '#fefefe',
-        height: 45
+        borderRadius: 0,
+        padding: 5
     },
     autoHeight: {
         height: undefined

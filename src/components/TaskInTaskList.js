@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import weekDays from '../utils/weekDays';
+import colors from '@src/config/colors'
 
 function TaskInSchedule(props){
 
@@ -27,7 +28,7 @@ function TaskInSchedule(props){
                 <TouchableOpacity onPress={onTaskDelete}>
                     <View style={styles.doneIconContainer}>
                         <Image 
-                            source={require('../assets/icons/red-cross.png')}
+                            source={require('../assets/icons/grey-cross.png')}
                             style={styles.doneImage}
                         />
                     </View>
@@ -48,7 +49,10 @@ const styles = StyleSheet.create({
         borderRadius: 2,
         borderWidth: 1,
         //justifyContent: "space-between",
-        backgroundColor: "#f5f5f5"
+        backgroundColor: colors.lightgreen,
+        borderWidth: 2,
+        borderColor: colors.darkgreen,
+        borderRadius:0 
     },
     activityName: {
         fontWeight: 'bold',

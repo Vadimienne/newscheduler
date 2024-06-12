@@ -12,6 +12,8 @@ import {
     Keyboard
 } from 'react-native';
 
+import colors from '@src/config/colors'
+
 import CoolButton from '@src/components/CoolButton'
 
 import {editTodo} from '@src/store/actions'
@@ -52,7 +54,7 @@ function NewActivity({ navigation, createTodo, route, editTodo, todos }) {
 
     return (
         <>
-            <ScrollView keyboardShouldPersistTaps='always'>
+            <ScrollView keyboardShouldPersistTaps='always' style={{backgroundColor: colors.lightgreen}}>
                 <View style={st.form}>
                     <Text style={st.activityTitle}>{task.activityName} <Text style={st.minutesADay}>{task.minutesADay} min</Text></Text>
                 </View>
@@ -60,7 +62,7 @@ function NewActivity({ navigation, createTodo, route, editTodo, todos }) {
                     <TextInput style={st.noteInput} value={noteInput} multiline onChangeText={text => setNoteInput(text)} placeholder='Type a note...'/>
                     <CoolButton buttonStyle={st.noteAddBtn} titleStyle={st.noteAddBtnText} title={'Add'} onPress={onAddNote}>add</CoolButton>
                 </View>
-                <View>
+                <View style={{marginTop: 20}}>
                     {notes.map((el, index) => {
                         return (
                             <View style={st.noteContainer}>
@@ -104,7 +106,8 @@ const st = StyleSheet.create({
         fontSize: 20
     },
     form:{
-        padding: 10
+        padding: 10,
+        //backgroundColor: colors.lightgreen
     },
     noteContainer:{
         display: 'flex',
@@ -113,7 +116,7 @@ const st = StyleSheet.create({
         padding: 5
     },
     noteElement: {
-        borderColor: '#ebebeb',
+        borderColor: colors.darkgreen,//'#ebebeb',
         borderWidth: 1,
         margin: 5,
         width: '80%'
@@ -125,23 +128,25 @@ const st = StyleSheet.create({
     noteInput: {
         width: '82%',
         marginLeft: 5,
-        borderColor: '#ebebeb',
+        borderColor: colors.darkgreen,//'#ebebeb',
         borderWidth: 1,
-        borderRadius: 6,
+        borderRadius: 0,
         padding: 5
     },
     noteAddBtn: {
         height: 30,
-        backgroundColor: '#00c92c',
-        color: '#fff',  
+        backgroundColor: colors.darkgreen,//'#00c92c',
+        color: colors.lightgreen,//'#fff',  
         marginTop: 5
     },
     deleteButton: {
-        backgroundColor: '#ad0900'
+        backgroundColor: colors.darkgreen,//'#ad0900'
     },
     noteAddBtnText: {
-        color: '#fff',
+        color: colors.lightgreen,
         padding: 5,
+        fontWeight:'500',
+        //textTransform: 'capitalize'
     }
     
 })

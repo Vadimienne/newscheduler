@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { todoDoneLtrl, todoSuspendedLtrl } from '@src/stringLiterals';
 import TextTicker from 'react-native-text-ticker';
+import colors from '@src/config/colors'
 
 function TaskInSchedule(props){
 
@@ -43,7 +44,7 @@ function TaskInSchedule(props){
                     <TouchableOpacity onPress={onTaskDone}>
                         <View style={styles.doneIconContainer}>
                             <Image 
-                                source={require('../assets/icons/checkmark.png')}
+                                source={require('../assets/icons/darkGreenCheckMark.png')}
                                 style={styles.doneImage}
                             />
                         </View>
@@ -88,8 +89,11 @@ const styles = StyleSheet.create({
         borderRadius: 2,
         // borderWidth: 1,
         justifyContent: "space-between",
-        backgroundColor: "#f5f5f5",
+        backgroundColor: colors.lightgreen,
         alignContent: 'center',
+        borderWidth: 2,
+        borderColor: colors.darkgreen,
+        borderRadius:0 
     },
     scheduleItemGrey: {
         backgroundColor: "#f5f5f5"
@@ -124,7 +128,9 @@ const styles = StyleSheet.create({
     },
     doneImage:{
         width: 30,
-        resizeMode: 'contain'
+        resizeMode: 'contain',
+        position:'relative',
+        top: -45
     },
     suspendIconContainer: {
         display: 'flex',

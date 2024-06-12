@@ -12,9 +12,13 @@ import {
     ScrollView
 } from 'react-native';
 
+import CoolButton from '@src/components/CoolButton'
+
 import {addTodo} from '@src/store/actions'
 
 import minutesToHours from '@src/utils/minutesToHours'
+
+import colors from '@src/config/colors'
 
 function NewActivity({ navigation, createTodo }) {
 
@@ -164,7 +168,7 @@ function NewActivity({ navigation, createTodo }) {
 
     return (
         <>
-            <ScrollView keyboardShouldPersistTaps='always'>
+            <ScrollView keyboardShouldPersistTaps='always' style={{backgroundColor: colors.lightgreen}}>
                 <View style={st.form}>
                     {/* Activity type selector. Mental/Physical */}
                     {/* <View style={[ st.formEl, st.activityType ]}>
@@ -250,10 +254,20 @@ function NewActivity({ navigation, createTodo }) {
                             {
                                 daysAWeek.map(el => 
                                     <View style={st.selectDayBtn} key={`week-day-view-${el.id}`}>
-                                        <Button 
+                                        {/* <Button 
                                             color={el.isActive? '#00c92c': 'grey'}
                                             key={`week-day-btn-${el.id}`}
                                             title={el.name}
+                                            onPress={() => toggleActiveDay(el.id)}
+                                        /> */}
+                                        <CoolButton 
+                                            //color={el.isActive? colors.lightgreen: colors.darkgreen}
+                                            key={`week-day-btn-${el.id}`}
+                                            title={el.name}
+                                            buttonStyle={!!el.isActive? st.activeButtonStyle: st.disabledButtonStyle}
+                                            titleStyle={!!el.isActive? st.activeButtonStyleTitle: st.disabledButtonStyleTitle}
+                                            //borderColor={colors.darkgreen}
+                                            //style={{borderColor: colors.darkgreen}}
                                             onPress={() => toggleActiveDay(el.id)}
                                         />
                                     </View>
@@ -283,11 +297,18 @@ function NewActivity({ navigation, createTodo }) {
                     :
                     <View></View>}
 
-                    <Button 
+                    {/* <Button 
                         color={isFormValid? '#00c92c': 'grey'}
                         title='Create activity'
                         onPress={submitActivity}
                         disabled={!isFormValid}
+                    /> */}
+                    <CoolButton 
+                        title='Create activity'
+                        onPress={submitActivity}
+                        disabled={!isFormValid}
+                        buttonStyle={!!isFormValid? st.activeButtonStyle: st.disabledButtonStyle}
+                        titleStyle={!!isFormValid? st.activeButtonStyleTitle: st.disabledButtonStyleTitle}
                     />
                 </View>
             </ScrollView>
@@ -310,6 +331,30 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 export default connect(mapStateToProps, mapDispatchToProps)(NewActivity)
 
 const st = StyleSheet.create({
+    disabledButtonStyle:{
+        borderColor: colors.darkgreen,//'#ebebeb',
+        borderWidth: 1,
+        borderRadius: 0,
+        padding: 5,
+        backgroundColor: colors.lightgreen
+    },
+    disabledButtonStyleTitle:{
+        color: colors.darkgreen,
+        fontWeight: '800',
+        textTransform: 'uppercase'
+    },
+    activeButtonStyle:{
+        borderColor: colors.darkgreen,//'#ebebeb',
+        borderWidth: 1,
+        borderRadius: 0,
+        padding: 5,
+        backgroundColor: colors.darkgreen
+    },
+    activeButtonStyleTitle:{
+        color: colors.lightgreen,
+        fontWeight: '800',
+        textTransform: 'uppercase'
+    },
     form:{
         padding: 10
     },
@@ -332,10 +377,14 @@ const st = StyleSheet.create({
         minWidth: '20%',
         paddingLeft: 10,
         borderWidth: 1,
-        borderColor: '#ebebeb',
-        borderRadius: 4,
-        backgroundColor: '#fefefe',
-        height: 45
+        //borderColor: '#ebebeb',
+        //borderRadius: 4,
+        //backgroundColor: '#fefefe',
+        height: 45,
+        borderColor: colors.darkgreen,//'#ebebeb',
+        borderWidth: 1,
+        borderRadius: 0,
+        padding: 5
     },
     textAlignRight: {
         //textAlign: 'right'

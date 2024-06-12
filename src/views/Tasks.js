@@ -41,6 +41,8 @@ class Tasks extends PureComponent{
                             buttonStyle={styles.addCoolButton} 
                             titleStyle={styles.addCoolButtonTitle} 
                             onPress={() => navigation.navigate('New Activity')}
+                            isDecoratedText
+
                             // onPress={() => pushScheduledNotification()}
                             // onPress={() => cancelAllNotifications()}
                         />
@@ -53,20 +55,24 @@ class Tasks extends PureComponent{
 
 const styles = StyleSheet.create({
     mainContainer: {
-        flex: 1
+        flex: 1,
+        backgroundColor: colors.lightgreen
     },
     addButton: {
         bottom: 0
     },
     addCoolButton: {
-        backgroundColor: colors.green,
+        backgroundColor: colors.lightgreen,
         height: 60,
         borderRadius: 0,
+        borderTopColor: colors.darkgreen,
+        borderTopWidth: 3
     },
     addCoolButtonTitle: {
         fontWeight: 'bold',
-        fontSize: 20,
+        fontSize: 24,
         lineHeight: 45,
+        color: colors.darkgreen
     }
 })
 

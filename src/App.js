@@ -29,6 +29,8 @@ import twoDatesAreSameDay from './helpers/twoDatesAreSameDay';
 import setTimestampToStartOfDay from './helpers/setTimestampToStartOfDay';
 const { notificationChannelId } = config
 
+import colors from '@src/config/colors'
+
 
 let MaterialTopTabs = createMaterialTopTabNavigator()
 let RootStack = createStackNavigator()
@@ -38,8 +40,14 @@ function MainScreen(){
     
     return(
         <MaterialTopTabs.Navigator sceneContainerStyle={{
-             backgroundColor: '#fff' ,
-          }}>
+             backgroundColor: colors.darkgreen ,
+          }}
+          screenOptions={{
+            tabBarLabelStyle: { fontSize: 16, fontWeight: 'bold',  },
+            tabBarItemStyle: { backgroundColor: colors.lightgreen },
+            tabBarStyle: { backgroundColor: colors.darkgreen }
+            }}
+          >
             <MaterialTopTabs.Screen
                 name="Schedule"
                 component={Home}
@@ -163,10 +171,34 @@ function App (props) {
                     headerShown: false
                 }}
             />
-            <RootStack.Screen name='New Activity' component={NewActivity} />
-            <RootStack.Screen name='NewTempActivity' component={NewTempActivity} />
-            <RootStack.Screen name='EditActivity' component={EditActivity} options={{title: 'Activity Edit'}}/>
-            <RootStack.Screen name='ActivityDashboard' component={ActivityDashboard} options={{title: 'Activity Dashboard'}} />
+            <RootStack.Screen name='New Activity' component={NewActivity} 
+                options={{
+                    title: 'Activity Dashboard', 
+                    headerStyle: {backgroundColor: colors.lightgreen},
+                    headerTitleStyle: {color: colors.darkgreen}
+                }}
+            />
+            <RootStack.Screen name='NewTempActivity' component={NewTempActivity} 
+                options={{
+                    title: 'New Quick Task', 
+                    headerStyle: {backgroundColor: colors.lightgreen},
+                    headerTitleStyle: {color: colors.darkgreen}
+                }}
+            />
+            <RootStack.Screen name='EditActivity' component={EditActivity}
+                options={{
+                    title: 'Activity Edit', 
+                    headerStyle: {backgroundColor: colors.lightgreen},
+                    headerTitleStyle: {color: colors.darkgreen}
+                }}
+            />
+            <RootStack.Screen name='ActivityDashboard' component={ActivityDashboard} 
+                options={{
+                    title: 'Activity Dashboard', 
+                    headerStyle: {backgroundColor: colors.lightgreen},
+                    headerTitleStyle: {color: colors.darkgreen}
+                }}
+                />
         </RootStack.Navigator>
     )
 }

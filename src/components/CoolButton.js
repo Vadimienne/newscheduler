@@ -1,8 +1,8 @@
 import React from 'react'
-import { TouchableOpacity, Text, StyleSheet, View } from 'react-native'
+import { TouchableOpacity, Text, StyleSheet, View, Image } from 'react-native'
 
 function Button (props){
-    const { buttonStyle, titleStyle, title, onPress } = props
+    const { buttonStyle, titleStyle, title, onPress, isDecoratedText, decorationOffset } = props
 
     // combine external styles with in-component defaults
     let combinedButtonStyle = {}
@@ -20,7 +20,28 @@ function Button (props){
             activeOpacity={0.8}
             onPress={onPress}
             delayPressIn={0}>
-            <View><Text style={titleStyle ? Object.assign({}, st.titleStyle, titleStyle) : st.titleStyle}>{title}</Text></View>
+            <View>
+                {isDecoratedText? <View style={st.decorationImg}>
+                    <Image 
+                        source={require('../assets/icons/btnDecoration.png')}
+                        style={{...st.decorationImg,
+                            top: 22,
+                            right: 8
+                        }}
+                    />
+                </View>: <></>}
+                <Text style={titleStyle ? Object.assign({}, st.titleStyle, titleStyle) : st.titleStyle}>{title}</Text>
+                {isDecoratedText? <View>
+                    <Image 
+                        source={require('../assets/icons/btnDecorationFlipped.png')}
+                        style={{...st.decorationImg,
+                            top: -20,
+                            //right: -107
+                            right: decorationOffset? -107: -87
+                        }}
+                    />
+                </View>: <></>}
+                </View>
         </TouchableOpacity>
     )
 }
@@ -37,7 +58,13 @@ const st = StyleSheet.create({
     },
     titleStyle: {
         color: 'white'
-    }
+    },
+    decorationImg: {
+        width: 13,
+        height: 13,
+        resizeMode: 'contain',
+        position:'relative'
+    },
 })
 
 export default Button
