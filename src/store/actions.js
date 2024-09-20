@@ -1,7 +1,8 @@
 export const ADD_TODO = 'ADD_TODO'
-export const ADD_TEMP_TODO = 'ADD_TEMP_TODO'
-export const REMOVE_TODO = 'REMOVE_TODO'
-export const REMOVE_TEMP_TODO = 'REMOVE_TEMP_TODO'
+export const ARCHIVE_TODO = 'ARCHIVE_TODO'
+export const UNARCHIVE_TODO = 'UNARCHIVE_TODO'
+export const DONE_TODO = 'DONE_TODO'
+export const UNDONE_TODO = 'UNDONE_TODO'
 export const EDIT_TODO = 'EDIT_TODO'
 export const TAG_TODO_DONE = 'TAG_TODO_DONE'
 export const TAG_TODO_SUSPENDED = 'TAG_TODO_SUSPENDED'
@@ -13,6 +14,10 @@ export const SET_MORNING_NOTIFICATIONS_STATUS = 'SET_MORNING_NOTIFICATIONS_STATU
 export const SET_EVENING_NOTIFICATIONS_STATUS = 'SET_EVENING_NOTIFICATIONS_STATUS'
 export const CHANGE_TODO_STATUS = 'CHANGE_TODO_STATUS'
 export const RESET_STATUSES = 'RESET_STATUSES'
+export const ADD_TODO_NOTE = 'ADD_TODO_NOTE'
+export const DELETE_TODO_NOTE = 'DELETE_TODO_NOTE'
+export const DELETE_TODO = 'DELETE_TODO'
+export const CHANGE_TODO = 'CHANGE_TODO'
 
 export function addTodo(payload){
     return {
@@ -21,93 +26,151 @@ export function addTodo(payload){
     }
 }
 
-export function addTempTodo(payload){
+export function addTodoNote(payload){
     return {
-        type: ADD_TEMP_TODO,
+        type: ADD_TODO_NOTE,
         payload
     }
 }
 
-export function removeTodo(payload){
+export function deleteTodoNote(payload){
     return {
-        type: REMOVE_TODO,
+        type: DELETE_TODO_NOTE,
         payload
     }
 }
 
-export function removeTempTodo(payload){
+export function archiveTodo(payload){
     return {
-        type: REMOVE_TEMP_TODO,
+        type: ARCHIVE_TODO,
         payload
     }
 }
 
-export function editTodo(payload){
-    console.log('action invoked')
+export function unarchiveTodo(payload){
     return {
-        type: EDIT_TODO,
+        type: UNARCHIVE_TODO,
         payload
     }
 }
 
-export function tagTodoDone(payload){
+export function doneTodo(payload){
     return {
-        type: TAG_TODO_DONE,
+        type: DONE_TODO,
         payload
     }
 }
 
-export function changeTodoStatus(payload){
+export function undoneTodo(payload){
     return {
-        type: CHANGE_TODO_STATUS,
+        type: UNDONE_TODO,
         payload
     }
 }
 
-export function updateTodaySchedule(payload) {
+export function deleteTodo(payload){
     return {
-        type: UPDATE_TODAY_SCHEDULE,
+        type: DELETE_TODO,
         payload
     }
 }
 
-export function setCurrentTime(payload){
+
+
+export function changeTodo(payload){
     return {
-        type: SET_CURRENT_TIME,
+        type: CHANGE_TODO,
         payload
     }
 }
 
-export function setCurrentDate(payload){
-    return {
-        type: SET_CURRENT_DATE,
-        payload
-    }
-}
+// export function addTempTodo(payload){
+//     return {
+//         type: ADD_TEMP_TODO,
+//         payload
+//     }
+// }
 
-export function formSchedule(payload){
-    return {
-        type: FORM_SCHEDULE,
-        payload
-    }
-}
+// export function removeTodo(payload){
+//     return {
+//         type: REMOVE_TODO,
+//         payload
+//     }
+// }
 
-export function setMorningNotificationsStatus(payload){
-    return {
-        type: SET_MORNING_NOTIFICATIONS_STATUS,
-        payload
-    }
-}
+// export function removeTempTodo(payload){
+//     return {
+//         type: REMOVE_TEMP_TODO,
+//         payload
+//     }
+// }
 
-export function setEveningNotificationsStatus(payload){
-    return {
-        type: SET_EVENING_NOTIFICATIONS_STATUS,
-        payload
-    }
-}
+// export function editTodo(payload){
+//     console.log('action invoked')
+//     return {
+//         type: EDIT_TODO,
+//         payload
+//     }
+// }
 
-export function resetTodoStatuses(){
-    return {
-        type: RESET_STATUSES
-    }
-}
+// export function tagTodoDone(payload){
+//     return {
+//         type: TAG_TODO_DONE,
+//         payload
+//     }
+// }
+
+// export function changeTodoStatus(payload){
+//     return {
+//         type: CHANGE_TODO_STATUS,
+//         payload
+//     }
+// }
+
+// export function updateTodaySchedule(payload) {
+//     return {
+//         type: UPDATE_TODAY_SCHEDULE,
+//         payload
+//     }
+// }
+
+// export function setCurrentTime(payload){
+//     return {
+//         type: SET_CURRENT_TIME,
+//         payload
+//     }
+// }
+
+// export function setCurrentDate(payload){
+//     return {
+//         type: SET_CURRENT_DATE,
+//         payload
+//     }
+// }
+
+// export function formSchedule(payload){
+//     return {
+//         type: FORM_SCHEDULE,
+//         payload
+//     }
+// }
+
+// export function setMorningNotificationsStatus(payload){
+//     return {
+//         type: SET_MORNING_NOTIFICATIONS_STATUS,
+//         payload
+//     }
+// }
+
+// export function setEveningNotificationsStatus(payload){
+//     return {
+//         type: SET_EVENING_NOTIFICATIONS_STATUS,
+//         payload
+//     }
+// }
+
+// export function resetTodoStatuses(){
+//     return {
+//         type: RESET_STATUSES
+//     }
+// }

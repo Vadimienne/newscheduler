@@ -35,7 +35,7 @@ function NewActivity({ navigation, editTodo, route }) {
     const [ estTimeWeek, setEstTimeWeek ] = useState('')
     const [ estTimeMonth, setEstTimeMonth ] = useState('')
     const [ estTimeYear, setEstTimeYear ] = useState('')
-    console.log('Activity:', route.params.item)
+    //console.log('Activity:', route.params.item)
 
 
     const [ daysAWeek, setDaysAWeek ] = useState([
@@ -72,7 +72,7 @@ function NewActivity({ navigation, editTodo, route }) {
 
     // Calculate time spend estimations
     useEffect(() => {
-        console.log('effect invoked!')
+        //console.log('effect invoked!')
         let calculateWeek = () => {
             return minutesADay * daysAWeek.filter(el => el.isActive).length 
         }

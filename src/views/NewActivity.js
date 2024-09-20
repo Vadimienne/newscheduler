@@ -64,7 +64,7 @@ function NewActivity({ navigation, createTodo }) {
 
     // Calculate time spend estimations
     useEffect(() => {
-        console.log('effect invoked!')
+        //console.log('effect invoked!')
         let calculateWeek = () => {
             return minutesADay * daysAWeek.filter(el => el.isActive).length 
         }
@@ -160,7 +160,7 @@ function NewActivity({ navigation, createTodo }) {
         setFinishDate(new Date())
     }
 
-    console.log('estimations: ', estTimeWeek, estTimeMonth, estTimeYear)
+    //console.log('estimations: ', estTimeWeek, estTimeMonth, estTimeYear)
 
     //*** 
     //*** 

@@ -14,7 +14,7 @@ const {notificationChannelId, notificationChannelName} = config
 
 // Creating notification channel is required. Without channel notifications don't work.
 PushNotification.channelExists(notificationChannelId, function (exists) {
-  console.log('Notification channel exists: ', exists); 
+  // console.log('Notification channel exists: ', exists); 
   if (!exists){
   PushNotification.createChannel(
     {
@@ -32,15 +32,15 @@ PushNotification.channelExists(notificationChannelId, function (exists) {
 
 PushNotification.configure({
     onRegister: function (token) {
-      console.log("TOKEN:", token);
+      //console.log("TOKEN:", token);
     },
     onNotification: function (notification) {
-      console.log("NOTIFICATION:", notification);
+      //console.log("NOTIFICATION:", notification);
       //notification.finish(PushNotificationIOS.FetchResult.NoData);
     },
     onAction: function (notification) {
-      console.log("ACTION:", notification.action);
-      console.log("NOTIFICATION:", notification);
+      //console.log("ACTION:", notification.action);
+      //console.log("NOTIFICATION:", notification);
     },
     onRegistrationError: function(err) {
       console.error(err.message, err);

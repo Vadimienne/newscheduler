@@ -16,7 +16,7 @@ class Tasks extends PureComponent{
 
         let today = new Date()
         let dayNum = today.getDay()
-        console.log(todos.map(el=> el.id))
+        //console.log(todos.map(el=> el.id))
 
         return(
             <>

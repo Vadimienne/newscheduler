@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ToastAndroid } from 'react-native';
 import { todoDoneLtrl, todoSuspendedLtrl } from '@src/stringLiterals';
 import TextTicker from 'react-native-text-ticker';
 import colors from '@src/config/colors'
+import { archiveTodo } from '../store/actions';
 
 function TaskInSchedule(props){
 
@@ -11,21 +12,27 @@ function TaskInSchedule(props){
         minutesADay,
         isTemporal,
         description,
-        status,
+        isDone,
+        isArchived,
+        isArchive,
         onTaskDone,
+        onTaskUndone,
+        onTaskArchive,
+        onTaskUnarchive,
+        onTaskDelete,
         onTaskSuspended,
         onTaskActivated,
         isBackgroundGrey
     } = props
 
     return (
-        <TouchableOpacity onPress={props.onNavigateToDashboard}>
+        <TouchableOpacity onPress={props.onNavigateToDashboard} onLongPress={() => {}}>
             <View style={[styles.scheduleItem, isBackgroundGrey? styles.scheduleItemGrey: null]} >
                 <View style={styles.infoContainer}>
                     <View>
                         <Text style={styles.activityName}>{activityName}</Text>
                     </View>
-                    <View style={styles.minutesContainer}>
+                    {/* <View style={styles.minutesContainer}>
                         {!isTemporal
                             ?   <Text style={styles.minutesText}>{minutesADay} min</Text>
                             :   <TextTicker 
@@ -37,9 +44,9 @@ function TaskInSchedule(props){
                                     {description}
                                 </TextTicker>
                         }
-                    </View>
+                    </View> */}
                 </View>
-                { status !== todoSuspendedLtrl && status !== todoDoneLtrl &&
+                { !isArchive && !isDone &&
                 <>
                     <TouchableOpacity onPress={onTaskDone}>
                         <View style={styles.doneIconContainer}>
@@ -49,7 +56,7 @@ function TaskInSchedule(props){
                             />
                         </View>
                     </TouchableOpacity>
-                    { onTaskSuspended ? 
+                    {/* { onTaskSuspended ? 
                     <TouchableOpacity onPress={onTaskSuspended}>
                         <View style={styles.suspendIconContainer}>
                             <Image 
@@ -60,17 +67,48 @@ function TaskInSchedule(props){
                     </TouchableOpacity>
                     :
                     <View></View>
-                    }
+                    } */}
                 </>}
-                {(status === todoSuspendedLtrl || status === todoDoneLtrl) &&
-                    <TouchableOpacity onPress={onTaskActivated}>
-                        <View style={styles.undoIconContainer}>
-                            <Image 
-                                source={require('../assets/icons/undo-arrow.png')}
-                                style={styles.undoImage}
-                            />
-                        </View>
-                    </TouchableOpacity>
+                { !isArchive && isDone &&
+                    <>
+                        <TouchableOpacity onPress={onTaskArchive}>
+                            <View style={styles.archiveIconContainer}>
+                                <Image 
+                                    source={require('../assets/icons/archive.png')}
+                                    style={styles.archiveImage}
+                                />
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={onTaskUndone}>
+                            <View style={styles.undoIconContainer}>
+                                <Image 
+                                    source={require('../assets/icons/undo-arrow.png')}
+                                    style={styles.undoImage}
+                                />
+                            </View>
+                        </TouchableOpacity>
+                </>
+                }
+                {
+                    isArchive &&
+                    <>
+                        <TouchableOpacity onPress={onTaskUnarchive}>
+                            <View style={styles.unarchiveIconContainer}>
+                                <Image 
+                                    source={require('../assets/icons/unarchive.png')}
+                                    style={styles.archiveImage}
+                                />
+                            </View>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={onTaskDelete}>
+                            <View style={styles.unarchiveIconContainer}>
+                                <Image 
+                                    source={require('../assets/icons/cross.png')}
+                                    style={styles.archiveImage}
+                                />
+                            </View>
+                        </TouchableOpacity>
+                    </>
                 }
     
             </View>
@@ -127,10 +165,12 @@ const styles = StyleSheet.create({
         
     },
     doneImage:{
-        width: 30,
+        width: 35,
+        height: 35, 
         resizeMode: 'contain',
         position:'relative',
-        top: -45
+        marginRight: 0,
+        marginTop: 14
     },
     suspendIconContainer: {
         display: 'flex',
@@ -141,19 +181,42 @@ const styles = StyleSheet.create({
         
     },
     suspendImage:{
-        width: 33,
+        width: 13,
+        height: 13, 
         resizeMode: 'contain'
     },
     undoIconContainer: {
         display: 'flex',
         flex: 1,
         alignItems: 'flex-start',
+        marginRight: 7,
+        marginTop: 10
+        
+    },
+    archiveIconContainer: {
+        display: 'flex',
+        flex: 1,
+        alignItems: 'flex-start',
+        marginRight: 20,
+        marginTop: 7
+        
+    },
+    unarchiveIconContainer: {
+        display: 'flex',
+        flex: 1,
+        alignItems: 'flex-start',
         marginRight: 5,
-        marginTop: -25
+        marginTop: 5
         
     },
     undoImage:{
-        width: 27,
+        width: 35,
+        height: 35, 
+        resizeMode: 'contain'
+    },
+    archiveImage:{
+        width: 40,
+        height: 40, 
         resizeMode: 'contain'
     },
 })

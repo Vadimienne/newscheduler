@@ -6,7 +6,8 @@ import {
     removeTempTodo,
     doneTodo,
     undoneTodo,
-    archiveTodo
+    unarchiveTodo,
+    deleteTodo
 } from '@src/store/actions';
 
 import colors from '@src/config/colors'
@@ -19,7 +20,7 @@ import {
 import TaskInSchedule from '@src/components/TaskInSchedule'
 import CoolButton from '@src/components/CoolButton'
 
-function Schedule (props){
+function Archive (props){
 
     const {
         changeTodoStatus,
@@ -30,10 +31,12 @@ function Schedule (props){
         doneTodo,
         undoneTodo,
         archiveTodo,
+        unarchiveTodo,
+        deleteTodo,
         todos
     } = props
 
-    const [activeTasks, setActiveTasks] = useState([])
+    const [archivedTasks, setArchivedTasks] = useState([])
     const [doneTasks, setDoneTasks] = useState([])
     // const [suspendedTasks, setSuspendedTasks] = useState([])
     const [tasks, setTasks] = useState([])
@@ -42,16 +45,15 @@ function Schedule (props){
 
     useEffect(() => {
         
-        setActiveTasks(todos.filter(el => !el.isArchived && !el.isDone))
 
-        setDoneTasks(todos.filter(el => !el.isArchived && el.isDone))
+        setArchivedTasks(todos.filter(el => el.isArchived))
 
         // let newSuspended = todaySchedule.filter(el => el.status === todoSuspendedLtrl)
         // setSuspendedTasks(newSuspended)
 
     }, [todos])
 
-    //console.log('TODOS LOG ', todos[todos.length - 1].activityName, todos[todos.length - 1].notes)
+    
 
     // Change task status
 
@@ -63,8 +65,8 @@ function Schedule (props){
         undoneTodo({id: task.id})
     }
 
-    const handleTaskArchive = (task) => {
-        archiveTodo({id: task.id})
+    const handleTaskUnarchive = (task) => {
+        unarchiveTodo({id: task.id})
     }
 
 
@@ -74,6 +76,11 @@ function Schedule (props){
 
     const handleTaskActivate = (task) => {
         changeTodoStatus({id: task.id, status: todoActiveLtrl})
+    }
+
+
+    const handleTaskDelete = (task) => {
+        deleteTodo({id: task.id})
     }
 
     const handleTempTaskDone = (task) => {
@@ -92,9 +99,12 @@ function Schedule (props){
                     onNavigateToDashboard={() => navigation.navigate('CreateUpdateNote', {item: item, isEditing: true, todoId: item.id})}
                     {...item}
                     key={`task-in-sche-${index}`}
+                    isArchive
                     onTaskDone={() => handleTaskDone(item)}
                     onTaskUndone={() => handleTaskUndone(item)}
                     onTaskArchive={() => handleTaskArchive(item)}
+                    onTaskDelete={() => handleTaskDelete(item)}
+                    onTaskUnarchive={() => handleTaskUnarchive(item)}
                     onTaskSuspended={() => handleTaskSuspended(item)}
                     onTaskActivated={() => handleTaskActivate(item)}
                 />
@@ -116,11 +126,10 @@ function Schedule (props){
                 
                     <>
                         <ScrollView>
-                            <Text style={[styles.categoryHeader, styles.categoryActive]}>To do</Text>
-                            {activeTasks.map((el, index) => renderItem(el, index))}
+                            
     
-                            <Text style={[styles.categoryHeader, styles.categoryDone]}>Done</Text>
-                            {doneTasks.map((el, index) => renderItem(el, index))}
+                            {/* <Text style={[styles.categoryHeader, styles.categoryDone]}>Done</Text> */}
+                            {archivedTasks.map((el, index) => renderItem(el, index))}
     
                             {/* <Text style={[styles.categoryHeader, styles.categorySuspended]}>Suspended</Text>
                             {suspendedTasks.map((el, index) => renderItem(el, index))} */}
@@ -131,18 +140,18 @@ function Schedule (props){
                     
                     
                 
-                <View style={styles.addButton}>
+                {/* <View style={styles.addButton}>
                         <CoolButton 
                             title='Write Note' 
                             buttonStyle={styles.addCoolButton} 
                             titleStyle={styles.addCoolButtonTitle} 
-                            onPress={() => navigation.navigate('CreateUpdateNote')}
+                            onPress={() => navigation.navigate('NewNote')}
                             decorationOffset
                             isDecoratedText
                             // onPress={() => pushScheduledNotification()}
                             // onPress={() => cancelAllNotifications()}
                         />
-                </View>
+                </View> */}
         </View>
     )
     
@@ -207,77 +216,16 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         undoneTodo: (payload) => {
             dispatch(undoneTodo(payload))
         },
-        archiveTodo: (payload) => {
-            dispatch(archiveTodo(payload))
+        unarchiveTodo: (payload) => {
+            dispatch(unarchiveTodo(payload))
         },
         removeTempTodo: (payload) => {
             dispatch(removeTempTodo(payload))
-        }
+        },
+        deleteTodo: (payload) => {
+            dispatch(deleteTodo(payload))
+        },
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Schedule)
-
-
-
-
-
-
-
-
-
-
-
-/* <ScrollView >
-                        <Text>Active</Text>
-                        <DraggableFlatList
-                            data={activeTasks}
-                            renderItem={renderItem}
-                            activationDistance={10}
-                            keyExtractor={(item) => item.sortableId}
-                            onDragEnd={handleSortActive}
-                            animationConfig={{
-                                damping: 10000000,
-                                mass: 1,
-                                stiffness: 1000,
-                                overshootClamping: false,
-                                restDisplacementThreshold: 0.1,
-                                isInteraction: false,
-                                useNativeDriver: true
-                            }} 
-                        />
-                        <Text>Done</Text>
-                        <DraggableFlatList
-                            data={doneTasks}
-                            renderItem={renderItem}
-                            activationDistance={10}
-                            keyExtractor={(item) => item.sortableId}
-                            onDragEnd={handleSort}
-                            animationConfig={{
-                                damping: 10000000,
-                                mass: 1,
-                                stiffness: 1000,
-                                overshootClamping: false,
-                                restDisplacementThreshold: 0.1,
-                                isInteraction: false,
-                                useNativeDriver: true
-                            }} 
-                        />
-                        <Text>Not today</Text>
-                        <DraggableFlatList
-                            data={suspendedTasks}
-                            renderItem={renderItem}
-                            activationDistance={10}
-                            keyExtractor={(item) => item.sortableId}
-                            onDragEnd={handleSort}
-                            animationConfig={{
-                                damping: 10000000,
-                                mass: 1,
-                                stiffness: 1000,
-                                overshootClamping: false,
-                                restDisplacementThreshold: 0.1,
-                                isInteraction: false,
-                                useNativeDriver: true
-                            }} 
-                        />
-                    </ScrollView> */
+export default connect(mapStateToProps, mapDispatchToProps)(Archive)

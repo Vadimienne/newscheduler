@@ -5,21 +5,22 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 import Home from '@src/views/Home'
+import Archive from '@src/views/Archive'
 import Tasks from '@src/views/Tasks'
 import NewActivity from '@src/views/NewActivity'
-import NewTempActivity from '@src/views/NewTempActivity'
+import CreateUpdateNote from '@src/views/CreateUpdateNote'
 import EditActivity from '@src/views/EditActivity'
 import ActivityDashboard from '@src/views/ActivityDashboard'
 
 import PushNotification from 'react-native-push-notification'
-import { 
-    setMorningNotificationsStatus,
-    setEveningNotificationsStatus,
-    setCurrentDate,
-    setCurrentTime,
-    formSchedule,
-    resetTodoStatuses
-} from '@src/store/actions';
+// import { 
+//     setMorningNotificationsStatus,
+//     setEveningNotificationsStatus,
+//     setCurrentDate,
+//     setCurrentTime,
+//     formSchedule,
+//     resetTodoStatuses
+// } from '@src/store/actions';
 import { 
     defaultMorningNotificationLiteral,
     defaultEveningNotificationLiteral
@@ -55,10 +56,16 @@ function MainScreen(){
                 swipeEnabled
             />
             <MaterialTopTabs.Screen
+                name="Archive"
+                component={Archive}
+                options={{ title: 'Archive' }}
+                swipeEnabled
+            />
+            {/* <MaterialTopTabs.Screen
                 name="Tasks"
                 component={Tasks}
                 options={{ title: 'All Activities' }}
-            />
+            /> */}
         </MaterialTopTabs.Navigator>
     )
 }
@@ -81,77 +88,77 @@ function App (props) {
         setEveningNotificationsStatus
     } = props
 
-    useEffect(() => {
-        updateCurrentTime(Date.now())
-    }, [])
+    // useEffect(() => {
+    //     updateCurrentTime(Date.now())
+    // }, [])
 
     // Initialize new schedule if new day started
 
-    useEffect(() => {
-        if( !twoDatesAreSameDay(lastFormScheduleTime, Date.now()) ){
-            // reset statuses because they are stored in todos, not todaySchedule.
-            // it is so because when we delete a task, the schedule is reformed thus todaySchedule is new every time we do that
-            resetTodoStatuses()
-            initializeTodaySchedule()
-        }
-    })
+    // useEffect(() => {
+    //     if( !twoDatesAreSameDay(lastFormScheduleTime, Date.now()) ){
+    //         // reset statuses because they are stored in todos, not todaySchedule.
+    //         // it is so because when we delete a task, the schedule is reformed thus todaySchedule is new every time we do that
+    //         resetTodoStatuses()
+    //         initializeTodaySchedule()
+    //     }
+    // })
 
     // Update schedule if todos changed
-    useEffect(() => {
-        initializeTodaySchedule()
-    }, [todos, tempTodos])
+    // useEffect(() => {
+    //     initializeTodaySchedule()
+    // }, [todos, tempTodos])
 
     
 
     // Update time and date effect
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            let now = Date.now()
-            if(!twoDatesAreSameDay(currentDate, now)){
-                updateCurrentDate(setTimestampToStartOfDay(now))
-            }
-            updateCurrentTime(now)
-        }, 1000)
-        return () => clearInterval(interval)
-    })
+    // useEffect(() => {
+    //     const interval = setInterval(() => {
+    //         let now = Date.now()
+    //         if(!twoDatesAreSameDay(currentDate, now)){
+    //             updateCurrentDate(setTimestampToStartOfDay(now))
+    //         }
+    //         updateCurrentTime(now)
+    //     }, 1000)
+    //     return () => clearInterval(interval)
+    // })
 
     // Set notifications for 
-    useEffect(() => {
-        const startOfDay = setTimestampToStartOfDay(Date.now())
-        console.log('morning notifications are set:', morningNotificationsAreSet)
-        console.log('evening notifications are set:', eveningNotificationsAreSet)
-        // PushNotification.cancelAllLocalNotifications()
+    // useEffect(() => {
+    //     const startOfDay = setTimestampToStartOfDay(Date.now())
+    //     console.log('morning notifications are set:', morningNotificationsAreSet)
+    //     console.log('evening notifications are set:', eveningNotificationsAreSet)
+    //     // PushNotification.cancelAllLocalNotifications()
 
-        if (!morningNotificationsAreSet){
-            // Morning notification at 8 AM
-            PushNotification.localNotificationSchedule({
-                channelId: notificationChannelId,
-                title: 'Push me',
-                message: `to see todays tasks`, // (required)
-                date: new Date(startOfDay + 1000 * 60 * 60 * 8), 
-                allowWhileIdle: true,
-                repeatType: 'day',
-                importance: 'high',
-                priority: 'high',
-                ignoreInForeground: false,
-            });
-            setMorningNotificationsStatus(true)
-        }
+    //     if (!morningNotificationsAreSet){
+    //         // Morning notification at 8 AM
+    //         PushNotification.localNotificationSchedule({
+    //             channelId: notificationChannelId,
+    //             title: 'Push me',
+    //             message: `to see todays tasks`, // (required)
+    //             date: new Date(startOfDay + 1000 * 60 * 60 * 8), 
+    //             allowWhileIdle: true,
+    //             repeatType: 'day',
+    //             importance: 'high',
+    //             priority: 'high',
+    //             ignoreInForeground: false,
+    //         });
+    //         setMorningNotificationsStatus(true)
+    //     }
 
-        if (!eveningNotificationsAreSet){
-            // Evening notification at 6 PM
-            PushNotification.localNotificationSchedule({
-                channelId: notificationChannelId,
-                title: 'Push me',
-                message: `to finish tasks`, // (required)
-                date: new Date(startOfDay + 1000 * 60 * 60 * 18), 
-                allowWhileIdle: true,
-                repeatType: 'day'
-            });
-            setEveningNotificationsStatus(true)
-        }
-    }, [currentDate, morningNotificationsAreSet, eveningNotificationsAreSet])
+    //     if (!eveningNotificationsAreSet){
+    //         // Evening notification at 6 PM
+    //         PushNotification.localNotificationSchedule({
+    //             channelId: notificationChannelId,
+    //             title: 'Push me',
+    //             message: `to finish tasks`, // (required)
+    //             date: new Date(startOfDay + 1000 * 60 * 60 * 18), 
+    //             allowWhileIdle: true,
+    //             repeatType: 'day'
+    //         });
+    //         setEveningNotificationsStatus(true)
+    //     }
+    // }, [currentDate, morningNotificationsAreSet, eveningNotificationsAreSet])
 
     // useEffect(() => {
     //     PushNotification.getScheduledLocalNotifications((arr) => {
@@ -171,7 +178,21 @@ function App (props) {
                     headerShown: false
                 }}
             />
-            <RootStack.Screen name='New Activity' component={NewActivity} 
+            <RootStack.Screen name='CreateUpdateNote' component={CreateUpdateNote} 
+                options={{
+                    title: 'New Note', 
+                    headerStyle: {backgroundColor: colors.lightgreen},
+                    headerTitleStyle: {color: colors.darkgreen}
+                }}
+            />
+            <RootStack.Screen name='Archive' component={Archive} 
+                options={{
+                    title: 'Archive', 
+                    headerStyle: {backgroundColor: colors.lightgreen},
+                    headerTitleStyle: {color: colors.darkgreen}
+                }}
+            />
+            {/* <RootStack.Screen name='New Activity' component={NewActivity} 
                 options={{
                     title: 'Activity Dashboard', 
                     headerStyle: {backgroundColor: colors.lightgreen},
@@ -198,43 +219,43 @@ function App (props) {
                     headerStyle: {backgroundColor: colors.lightgreen},
                     headerTitleStyle: {color: colors.darkgreen}
                 }}
-                />
+                /> */}
         </RootStack.Navigator>
     )
 }
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        morningNotificationsAreSet: state.morningNotificationsAreSet,
-        eveningNotificationsAreSet: state.eveningNotificationsAreSet,
+        // morningNotificationsAreSet: state.morningNotificationsAreSet,
+        // eveningNotificationsAreSet: state.eveningNotificationsAreSet,
         currentTime: state.currentTime,
         currentDate: state.currentDate,
         todos: state.todos,
-        tempTodos: state.tempTodos,
-        lastFormScheduleTime: state.lastFormScheduleTime
+        // tempTodos: state.tempTodos,
+        // lastFormScheduleTime: state.lastFormScheduleTime
     }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        setMorningNotificationsStatus: (payload) => {
-            dispatch(setMorningNotificationsStatus(payload))
-        },
-        setEveningNotificationsStatus: (payload) => {
-            dispatch(setEveningNotificationsStatus(payload))
-        },
-        updateCurrentTime: (payload) => {
-            dispatch(setCurrentTime(payload))
-        },
-        updateCurrentDate: (payload) => {
-            dispatch(setCurrentDate(payload))
-        },
-        initializeTodaySchedule: () => {
-            dispatch(formSchedule())
-        },
-        resetTodoStatuses: () => {
-            dispatch(resetTodoStatuses())
-        }
+        // setMorningNotificationsStatus: (payload) => {
+        //     dispatch(setMorningNotificationsStatus(payload))
+        // },
+        // setEveningNotificationsStatus: (payload) => {
+        //     dispatch(setEveningNotificationsStatus(payload))
+        // },
+        // updateCurrentTime: (payload) => {
+        //     dispatch(setCurrentTime(payload))
+        // },
+        // updateCurrentDate: (payload) => {
+        //     dispatch(setCurrentDate(payload))
+        // },
+        // initializeTodaySchedule: () => {
+        //     dispatch(formSchedule())
+        // },
+        // resetTodoStatuses: () => {
+        //     dispatch(resetTodoStatuses())
+        // }
     }
 }
 

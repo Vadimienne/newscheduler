@@ -20,13 +20,12 @@ function Button (props){
             activeOpacity={0.8}
             onPress={onPress}
             delayPressIn={0}>
-            <View>
+            <View style={{display: 'flex', flexDirection: 'row'}}>
                 {isDecoratedText? <View style={st.decorationImg}>
                     <Image 
                         source={require('../assets/icons/btnDecoration.png')}
                         style={{...st.decorationImg,
-                            top: 22,
-                            right: 8
+                            top: 5,
                         }}
                     />
                 </View>: <></>}
@@ -35,9 +34,7 @@ function Button (props){
                     <Image 
                         source={require('../assets/icons/btnDecorationFlipped.png')}
                         style={{...st.decorationImg,
-                            top: -20,
-                            //right: -107
-                            right: decorationOffset? -107: -87
+                            top: 26,
                         }}
                     />
                 </View>: <></>}
